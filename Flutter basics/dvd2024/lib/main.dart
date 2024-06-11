@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,6 +35,252 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'Vittu tää toimii'),
     );
+  }
+}
+
+class HelloWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Text('Hello!');
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: const Center(
+        child: const Text("Main"),
+      ),
+    );
+  }
+}
+
+class ColorfulTextWidget extends StatelessWidget {
+  Color color;
+  String text;
+
+  ColorfulTextWidget({this.color = Colors.red, this.text = "Hello!"});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color,
+      child: Text(text),
+    );
+  }
+}
+
+//create row with 3 colorful text widgets
+class RowsInColumn extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text("A"),
+            Text("B"),
+            Text("C"),
+          ],
+        ),
+        Row(
+          children: [
+            Text("D"),
+            Text("E"),
+          ],
+        ),
+        Row(
+          children: [
+            Text("F"),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ColumnExpanded extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(child: Container(color: Colors.blue)),
+        Expanded(child: Container(color: Colors.yellow)),
+      ],
+    );
+  }
+}
+
+class ThreeButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            print("Button pressed");
+          },
+          child: Text("Hello"),
+        ),
+        OutlinedButton(
+          onPressed: () {
+            print("Button pressed");
+          },
+          child: Text("world"),
+        ),
+        TextButton(
+          onPressed: () {
+            print("Button pressed");
+          },
+          child: Text("!"),
+        ),
+      ],
+    );
+  }
+}
+
+//create a button using elevated button class
+
+class ElButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        print("Button pressed");
+      },
+      child: Text("Hello"),
+    );
+  }
+}
+
+class OutButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        print("Button pressed");
+      },
+      child: Text("world"),
+    );
+  }
+}
+
+class TButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        print("Button pressed");
+      },
+      child: Text("!"),
+    );
+  }
+}
+
+class NavButtonsHome extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        OutlinedButton(
+          onPressed: () => context.go("/y/1"),
+          child: Text("Up"),
+        ),
+        OutlinedButton(
+            onPressed: () => context.go("/y/-1"), child: Text("Down")),
+        OutlinedButton(
+          onPressed: () => context.go("/x/1"),
+          child: Text("Right"),
+        ),
+        OutlinedButton(
+            onPressed: () => context.go("/x/-1"), child: Text("Left")),
+      ],
+    );
+  }
+}
+
+class NavButtonsRead extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Read"),
+        OutlinedButton(
+            onPressed: () => Navigator.pop(context, "/"), child: Text("Back")),
+      ],
+    );
+  }
+}
+
+class NavButtonsWrite extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Write"),
+        OutlinedButton(
+            onPressed: () => Navigator.pop(context, "/"), child: Text("Back")),
+      ],
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: NavButtonsHome()));
+  }
+}
+
+class ReadScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: NavButtonsRead()));
+  }
+}
+
+class WriteScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: NavButtonsWrite()));
+  }
+}
+
+class CoordinateScreen extends StatelessWidget {
+  int x = 0;
+  int y = 0;
+
+  CoordinateScreen(this.x, this.y);
+
+  @override
+  Widget build(BuildContext context) {
+    final addY = y + 1;
+    final subY = y - 1;
+    final addX = x + 1;
+    final subX = x - 1;
+
+    return Scaffold(
+        body: Center(
+      child: Column(
+        children: [
+          Text("You are at ($x,$y)"),
+          ElevatedButton(
+            onPressed: () => context.go("/x/$x/y/$addY"),
+            child: Text("Up"),
+          ),
+          ElevatedButton(
+              onPressed: () => context.go("/x/$x/y/$subY"), child: Text("Down")),
+          ElevatedButton(
+            onPressed: () => context.go("/x/$addX/y/$y"),
+            child: Text("Right"),
+          ),
+          ElevatedButton(
+              onPressed: () => context.go("/x/$subX/y/$y"),
+              child: Text("Left")),
+        ],
+      ),
+    ));
   }
 }
 
